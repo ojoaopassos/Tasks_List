@@ -10,12 +10,14 @@ tasks_box = PySimpleGUI.Listbox(values=functions.get_tasks(), key="selected_task
 
 edit_button = PySimpleGUI.Button("Edit")
 
+complete_button = PySimpleGUI.Button("Complete")
+
 exit_button = PySimpleGUI.Button("Exit")
 
 window = PySimpleGUI.Window("My Tasks App",
 							layout=[[label],
 									[input_box, add_button],
-									[tasks_box, edit_button],
+									[tasks_box, edit_button, complete_button],
 									[exit_button]],
 							font=("Helvetica", 20))
 
@@ -51,6 +53,14 @@ while True:
 			functions.write_tasks(tasks)
 
 			window["selected_task"].update(tasks)
+
+		case "Complete":
+			tasks = functions.get_tasks()
+			task_to_complete = value["selected_task"][0]
+			tasks.remove(task_to_complete)
+			functions.write_tasks(tasks)
+			window["selected_task"].update(tasks)
+			window["task"].update(value="")
 
 		case "selected_task":
 			window["task"].update(value=value["selected_task"][0])
